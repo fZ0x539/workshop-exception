@@ -65,14 +65,12 @@ public class NameService {
      */
     public void addFemaleFirstName(String name) throws DuplicateNameException {
         //TODO:
-        if(name.trim().isEmpty() || name.length() < 3)
-            throw new IllegalArgumentException("Please enter a valid name");
-        else if (femaleFirstNames.contains(name))
+        validateName(name);
+        if (femaleFirstNames.contains(name)) {
             throw new DuplicateNameException("Female name already exists", name);
-        else {
-            femaleFirstNames.add(name);
-            CSVReader_Writer.saveFemaleNames(femaleFirstNames);
         }
+
+        femaleFirstNames.add(name);
 
 
     }
@@ -86,14 +84,13 @@ public class NameService {
      */
     public void addMaleFirstName(String name) throws DuplicateNameException {
         //TODO:
-        if(name.trim().isEmpty() || name.length() < 3)
-            throw new IllegalArgumentException("Please enter a valid name");
-        else if (maleFirstNames.contains(name))
+        validateName(name);
+        if (maleFirstNames.contains(name)) {
             throw new DuplicateNameException("Male name already exists", name);
-        else {
-            maleFirstNames.add(name);
-            CSVReader_Writer.saveMaleNames(maleFirstNames);
         }
+
+        maleFirstNames.add(name);
+
 
     }
 
@@ -106,14 +103,23 @@ public class NameService {
      */
     public void addLastName(String lastName) {
         //TODO:
-        if(lastName.trim().isEmpty() || lastName.length() < 2)
-            throw new IllegalArgumentException("Please enter a valid name");
-        else if (lastNames.contains(lastName))
+        validateName(lastName);
+        if (lastNames.contains(lastName)) {
             throw new DuplicateNameException("Last name already exists", lastName);
-        else {
-            lastNames.add(lastName);
-            CSVReader_Writer.saveLastNames(lastNames);
         }
+        lastNames.add(lastName);
+    }
+
+    private void validateName(String name) {
+        if (name.trim().isEmpty() || name.length() < 2) {
+            throw new IllegalArgumentException("Please enter a valid name");
+        }
+    }
+
+    public void saveAllNames() {
+        CSVReader_Writer.saveFemaleNames(femaleFirstNames);
+        CSVReader_Writer.saveMaleNames(maleFirstNames);
+        CSVReader_Writer.saveLastNames(lastNames);
     }
 
 }
