@@ -1,5 +1,6 @@
 package se.lexicon.exceptions.workshop;
 
+import java.io.IOException;
 import java.util.List;
 
 import se.lexicon.exceptions.workshop.data_access.NameService;
@@ -13,10 +14,19 @@ public class Main {
 		List <String> maleFirstNames = CSVReader_Writer.getMaleFirstNames();
         List <String> femaleFirstNames = CSVReader_Writer.getFemaleFirstNames();
 
-        List <String> lastNames = CSVReader_Writer.getLastNames();
+        List <String> lastNames = null;
+        try {
+            lastNames = CSVReader_Writer.getLastNames();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
 
         NameService nameService = new NameService(maleFirstNames, femaleFirstNames,lastNames);
+//        nameService.addMaleFirstName("Erik"); Exception in thread "main" Message: Male name already exists, Duplicate Name: Erik
+            nameService.addFemaleFirstName("Sapphire");
+            nameService.addMaleFirstName("Mehrdad");
+            nameService.addLastName("Krusberg");
 
 
         Person test = nameService.getNewRandomPerson();
